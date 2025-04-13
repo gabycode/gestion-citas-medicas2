@@ -3,6 +3,7 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
+    container_name: gestion_citas_medicas-server
     ports:
       - "5000:5000"
     environment:
@@ -14,6 +15,7 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile
+    container_name: gestion_citas_medicas-client
     ports:
       - "3000:3000"
     depends_on:
@@ -23,6 +25,7 @@ services:
       - /usr/src/app/node_modules
   mongo:
     image: mongo:4.2
+    container_name: gestion_citas_medicas-db
     ports:
       - "27017:27017"
     volumes:
