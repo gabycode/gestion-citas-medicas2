@@ -23,7 +23,7 @@ Asegúrate de tener **Docker** y **Docker Compose** instalados.
 
 1. Clona este repositorio:
    ```bash
-   git clone https://github.com/gabycode/gestion-citas-medicas.git
+   git clone https://github.com/gabycode/gestion-citas-medicas2.git
    cd gestion-citas-medicas
 
 2. Construye los imágenes:  
