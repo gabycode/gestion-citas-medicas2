@@ -30,7 +30,7 @@ COPY --from=builder /usr/src/app/package*.json ./
 RUN npm install --only=production
 
 # Expose the port the app runs on
-EXPOSE 5000
+EXPOSE 3030
 
 # Start the application
 CMD ["node", "dist/server.js"]

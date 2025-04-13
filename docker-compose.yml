@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile
     container_name: gestion_citas_medicas-server
     ports:
-      - "5000:5000"
+      - "3030:3030"
     environment:
       - NODE_ENV=development
       - MONGO_URI=mongodb://mongo:27017/gestion-citas-medicas

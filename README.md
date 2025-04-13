@@ -36,7 +36,7 @@ Asegúrate de tener **Docker** y **Docker Compose** instalados.
 
 4. Accede a las interfaces
 - Frontend: http://localhost:3000
-- Backend (API): http://localhost:5000
+- Backend (API): http://localhost:3030
 
 ## 📬 Endpoints principales (API REST)
 | Recurso  | Metodo | Ruta               | Descripcion                 |
