@@ -1,28 +1,38 @@
+version: "3.8"
 services:
   backend:
+    container_name: gestion_citas_medicas-server
     build:
       context: ./server
       dockerfile: Dockerfile
-    container_name: gestion_citas_medicas-server
+      target: ${NODE_ENV:-development}
     ports:
       - "3030:3030"
+    volumes:
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules
+    env_file:
+      - ./server/.env
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=${NODE_ENV:-development}
       - MONGO_URI=mongodb://mongo:27017/gestion-citas-medicas
     depends_on:
       - mongo
+
   frontend:
+    container_name: gestion_citas_medicas-client
     build:
       context: ./client
       dockerfile: Dockerfile
-    container_name: gestion_citas_medicas-client
+      target: ${NODE_ENV:-development}
     ports:
       - "3000:3000"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
     depends_on:
       - backend
-    volumes:
-      - ./client:/usr/src/app
-      - /usr/src/app/node_modules
+
   mongo:
     image: mongo:4.2
     container_name: gestion_citas_medicas-db
@@ -30,5 +40,19 @@ services:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
+
+  mongo-express:
+    image: mongo-express
+    container_name: gestion_citas_medicas-mongo-express
+    ports:
+      - "8081:8081"
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_MONGODB_PORT=27017
+      - ME_CONFIG_BASICAUTH_USERNAME=Admin
+      - ME_CONFIG_BASICAUTH_PASSWORD=Admin
+    depends_on:
+      - mongo
+
 volumes:
   mongo-data:

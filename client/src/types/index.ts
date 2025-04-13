@@ -22,3 +22,15 @@ export interface Cita {
   paciente: string;
   doctor: string;
 }
+
+export interface CitaForm {
+  fecha: string;
+  hora: string;
+  doctor: string;
+  paciente: {
+    nombre: string;
+    apellido: string;
+    telefono: string;
+    correo: string;
+  };
+}

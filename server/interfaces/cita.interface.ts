@@ -1,6 +1,6 @@
-import mongoose, { Document } from "mongoose";
+import mongoose from "mongoose";
 
-export interface Cita extends Document {
+export interface ICita extends Document {
   fecha: Date;
   hora: string;
   paciente: mongoose.Types.ObjectId;

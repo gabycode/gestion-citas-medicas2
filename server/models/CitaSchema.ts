@@ -1,7 +1,7 @@
 import mongoose, { Document, Schema } from "mongoose";
-import { Cita } from "../interfaces/cita.interface";
+import { ICita } from "../interfaces/cita.interface";
 
-const CitaSchema = new Schema<Cita>(
+const CitaSchema = new Schema<ICita>(
   {
     fecha: { type: Date, required: true },
     hora: { type: String, required: true },
@@ -21,4 +21,4 @@ const CitaSchema = new Schema<Cita>(
   }
 );
 
-export const CitaModel = mongoose.model<Cita>("Cita", CitaSchema);
+export const CitaModel = mongoose.model<ICita>("Cita", CitaSchema);

@@ -1,19 +1,20 @@
-# Etapa 1: build
-FROM node:23-slim AS builder
-
+ARG NODE_ENV=production
+FROM node:23-slim AS base
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
+
+FROM base AS build
 RUN npm run build
 
-# Etapa 2: servir el contenido estático
-FROM node:23-slim
+FROM base AS development
+ENV NODE_ENV=development
+CMD ["npm", "run", "dev"]
 
+FROM node:23-slim AS production
 WORKDIR /app
 RUN npm install -g serve
-
-COPY --from=builder /app/dist-client ./dist
-
+COPY --from=build /app/dist-client ./dist
 EXPOSE 3000
 CMD ["serve", "-s", "dist", "-l", "3000"]

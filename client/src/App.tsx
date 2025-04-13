@@ -1,13 +1,18 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import Confirmacion from './pages/Confirmacion';
-import Agendar from './pages/Agendar';
-import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import Home from "./pages/Home";
+import Confirmacion from "./pages/Confirmacion";
+import Agendar from "./pages/Agendar";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
     <BrowserRouter>
+      <ToastContainer position="top-right" autoClose={4000} />
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/confirmacion" element={<Confirmacion />} />

@@ -1,6 +1,6 @@
 import { Document } from "mongoose";
 
-export interface Doctor extends Document {
+export interface IDoctor extends Document {
   nombre: string;
   apellido: string;
   especialidad: string;

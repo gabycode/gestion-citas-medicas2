@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { createCita } from "../../services/citasService";
-import { createPaciente } from "../../services/pacientesService";
 import { useState, useEffect } from "react";
 import { Doctor } from "../../types";
 import { getAllDoctores } from "../../services/doctoresService";
@@ -33,58 +33,36 @@ export default function AgendarCitaForm() {
   const onSubmit = async (data: any) => {
     setLoading(true);
     try {
-      // 1. Preparar los datos del paciente
-      const pacienteData = {
-        nombre: data.nombre,
-        apellido: data.apellido,
-        correo: data.correo,
-        telefono: data.telefono,
-      };
-
-      // Logs para depuración
-      console.log("Enviando datos del paciente:", pacienteData);
-
-      // 2. Crear el paciente
-      const pacienteResponse = await createPaciente(pacienteData);
-      console.log("Paciente creado:", pacienteResponse.data);
-
-      // 3. Preparar los datos de la cita - IMPORTANTE: usa paciente/doctor, no pacienteId/doctorId
       const citaData = {
         fecha: data.fecha,
         hora: data.hora,
-        paciente: pacienteResponse.data._id, // ¡Nombres de campos correctos!
-        doctor: data.doctorId, // ¡Nombres de campos correctos!
-        motivo: data.motivo || "Consulta general",
+        doctor: data.doctorId,
+        paciente: {
+          nombre: data.nombre,
+          apellido: data.apellido,
+          correo: data.correo,
+          telefono: data.telefono,
+        },
       };
-
-      console.log("Enviando datos de la cita:", citaData);
-
-      // 4. Crear la cita
+  
       const citaResponse = await createCita(citaData);
-      console.log("Cita creada:", citaResponse.data);
-
       reset();
       setLoading(false);
-      alert("Cita agendada con éxito");
+  
+      toast.success("Cita agendada con éxito 🎉");
+  
       navigate("/confirmacion", { state: { cita: citaResponse.data } });
     } catch (err: any) {
       setLoading(false);
       console.error("Error completo:", err);
-
+  
       if (err.response) {
-        console.error("Respuesta del servidor:", err.response.data);
-        alert(
-          `Error: ${
-            err.response.data.message ||
-            JSON.stringify(err.response.data) ||
-            "Error del servidor"
-          }`
-        );
+        toast.error(err.response.data.message || "Error del servidor");
       } else {
-        alert(`Error: ${err.message || "Error desconocido"}`);
+        toast.error(err.message || "Error desconocido");
       }
     }
-  };
+  };  
 
   const inputStyle =
     "w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500";
@@ -109,6 +87,7 @@ export default function AgendarCitaForm() {
           <p className={errorStyle}>{errors.nombre.message?.toString()}</p>
         )}
       </div>
+
       <div>
         <label className={labelStyle}>Apellido</label>
         <input
@@ -161,7 +140,7 @@ export default function AgendarCitaForm() {
           <option value="">Seleccione un doctor</option>
           {doctores.map((doctor) => (
             <option key={doctor._id} value={doctor._id}>
-              Dr. {doctor.nombre} {doctor.apellido} - {doctor.especialidad}
+              {doctor.nombre} {doctor.apellido} - {doctor.especialidad}
             </option>
           ))}
         </select>

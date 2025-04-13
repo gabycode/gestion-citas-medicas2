@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import bodyParser from "body-parser";
+import dotenv from "dotenv";
 
 import doctorRoutes from "./routes/doctor.route";
 import pacienteRoutes from "./routes/paciente.route";
@@ -13,6 +14,8 @@ const PORT = process.env.PORT || 3030;
 
 app.use(cors());
 app.use(bodyParser.json());
+
+dotenv.config();
 
 const dbURI =
   process.env.MONGO_URI || "mongodb://localhost:27017/gestion-citas-medicas";

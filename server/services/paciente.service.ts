@@ -1,23 +1,27 @@
 import { PacienteModel } from "../models/PacienteSchema";
-import { Paciente } from "../interfaces/paciente.interface";
+import { IPaciente } from "../interfaces/paciente.interface";
 
-export const getAll = async (): Promise<Paciente[]> => {
+export const getAll = async (): Promise<IPaciente[]> => {
   return await PacienteModel.find();
 };
 
-export const create = async (data: Paciente): Promise<Paciente> => {
+export const create = async (data: IPaciente): Promise<IPaciente> => {
   const newPatient = new PacienteModel(data);
   return await newPatient.save();
 };
 
-export const getById = async (id: string): Promise<Paciente | null> => {
+export const getById = async (id: string): Promise<IPaciente | null> => {
   return await PacienteModel.findById(id);
+};
+
+export const getByCorreo = async (correo: string): Promise<IPaciente | null> => {
+  return await PacienteModel.findOne({ correo });
 };
 
 export const update = async (
   id: string,
-  data: Partial<Paciente>
-): Promise<Paciente | null> => {
+  data: Partial<IPaciente>
+): Promise<IPaciente | null> => {
   return await PacienteModel.findByIdAndUpdate(id, data, { new: true });
 };
 

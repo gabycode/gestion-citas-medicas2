@@ -1,20 +1,20 @@
 import { DoctorModel } from '../models/DoctorSchema';
-import { Doctor } from '../interfaces/doctor.interface';
+import { IDoctor } from '../interfaces/doctor.interface';
 
-export const getAll = async (): Promise<Doctor[]> => {
+export const getAll = async (): Promise<IDoctor[]> => {
   return await DoctorModel.find();
 };
 
-export const create = async (data: Doctor): Promise<Doctor> => {
+export const create = async (data: IDoctor): Promise<IDoctor> => {
   const newDoctor = new DoctorModel(data);
   return await newDoctor.save();
 };
 
-export const getById = async (id: string): Promise<Doctor | null> => {
+export const getById = async (id: string): Promise<IDoctor | null> => {
   return await DoctorModel.findById(id);
 };
 
-export const update = async (id: string, data: Partial<Doctor>): Promise<Doctor | null> => {
+export const update = async (id: string, data: Partial<IDoctor>): Promise<IDoctor | null> => {
   return await DoctorModel.findByIdAndUpdate(id, data, { new: true });
 };
 

@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
-import { Doctor } from "../interfaces/doctor.interface";
+import { IDoctor } from "../interfaces/doctor.interface";
 
-const DoctorSchema: Schema = new Schema<Doctor>(
+const DoctorSchema: Schema = new Schema<IDoctor>(
   {
     nombre: { type: String, required: true },
     apellido: { type: String, required: true },
@@ -14,4 +14,4 @@ const DoctorSchema: Schema = new Schema<Doctor>(
   }
 );
 
-export const DoctorModel = mongoose.model<Doctor>("Doctor", DoctorSchema);
+export const DoctorModel = mongoose.models.Doctor || mongoose.model<IDoctor>("Doctor", DoctorSchema);

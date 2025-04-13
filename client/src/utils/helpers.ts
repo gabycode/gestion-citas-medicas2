@@ -1,12 +1,10 @@
-export const formatearFecha = (fecha: string) => {
-    const date = new Date(fecha);
-    return date.toLocaleString('es-DO', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-  };
-  
+export const formatearFecha = (fecha: string | Date) => {
+  const date = new Date(fecha);
+  return date.toLocaleDateString("es-ES", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC"
+  });
+};

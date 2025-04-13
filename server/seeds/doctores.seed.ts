@@ -21,6 +21,30 @@ const doctores = [
     especialidad: "Dermatología",
     telefono: "8494567890",
     email: "marta.lopez@example.com"
+  },
+
+  {
+    nombre: "Dr. Thomas",
+    apellido: "Felix",
+    especialidad: "Odontologia",
+    telefono: "8494323290",
+    email: "thomas.felix@example.com"
+  },
+
+  {
+    nombre: "Dra. Gabriela",
+    apellido: "Rosario",
+    especialidad: "Oftalmologia",
+    telefono: "8096785432",
+    email: "gabriela.rosario@example.com"
+  },
+
+  {
+    nombre: "Dr. Diego",
+    apellido: "Marte",
+    especialidad: "Ginecologia",
+    telefono: "8492442511",
+    email: "diegomarte9@gmail.com"
   }
 ];
 
