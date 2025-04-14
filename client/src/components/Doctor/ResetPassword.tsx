@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { resetPassword } from "../../services/doctoresService";
 import { useState } from "react";
+import { ArrowLeftIcon } from "lucide-react";
+import otpPasswordImage from "../../assets/otp-password.jpg";
 
 export default function ResetPassword() {
   const {
@@ -28,7 +30,9 @@ export default function ResetPassword() {
       navigate("/login");
     } catch (err: any) {
       console.error("Error al restablecer contraseña:", err);
-      toast.error(err.response?.data?.message || "Error al restablecer contraseña");
+      toast.error(
+        err.response?.data?.message || "Error al restablecer contraseña"
+      );
     } finally {
       setLoading(false);
     }
@@ -42,14 +46,34 @@ export default function ResetPassword() {
   const errorStyle = "text-red-500 text-sm mt-1";
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-xl w-full space-y-8 bg-white p-10 rounded-lg shadow-xl">
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <h2 className="text-3xl font-bold text-center text-blue-700">
+    <div className="flex shadow-md">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="max-w-md mx-auto  space-y-4 bg-white p-6 rounded-lg shadow-md"
+      >
+        <div
+          className="flex items-center cursor-pointer gap-2"
+          onClick={() => navigate("/")}
+        >
+          <ArrowLeftIcon className="w-4 h-4" />
+          <p className="text-sm ">Volver al inicio</p>
+        </div>
+
+        <div className="flex flex-col items-center p-6">
+          <img
+            src={otpPasswordImage}
+            alt="Forgot Password"
+            className="w-full h-full object-cover rounded-lg mb-4"
+          />
+          <h2 className="text-3xl font-bold text-center text-blue-700 mb-2">
             Ingresar Código OTP
           </h2>
+          <p className="text-sm text-center text-gray-600 mb-4">
+            Ingresa el código OTP enviado a tu correo electrónico para
+            restablecer tu contraseña.
+          </p>
 
-          <div>
+          <div className="mb-4 w-full">
             <label className={labelStyle}>Código OTP</label>
             <input
               {...register("otp", {
@@ -64,26 +88,31 @@ export default function ResetPassword() {
             )}
           </div>
 
-          <div>
+          <div className="mb-4 w-full">
             <label className={labelStyle}>Nueva contraseña</label>
             <input
               {...register("newPassword", {
                 required: "La nueva contraseña es obligatoria",
-                minLength: { value: 6, message: "Debe tener al menos 6 caracteres" },
+                minLength: {
+                  value: 6,
+                  message: "Debe tener al menos 6 caracteres",
+                },
               })}
               type="password"
               className={inputStyle}
             />
             {errors.newPassword && (
-              <p className={errorStyle}>{errors.newPassword.message?.toString()}</p>
+              <p className={errorStyle}>
+                {errors.newPassword.message?.toString()}
+              </p>
             )}
           </div>
 
           <button type="submit" className={buttonStyle} disabled={loading}>
             {loading ? "Procesando..." : "Restablecer contraseña"}
           </button>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   );
 }
