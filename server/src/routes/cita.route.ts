@@ -1,7 +1,20 @@
 import { RequestHandler, Router } from "express";
 import * as citaController from "../controllers/cita.controller";
+import logger from "../utils/logger";
 
 const router = Router();
+
+router.use((req, res, next) => {
+  logger.info(
+    {
+      method: req.method,
+      url: req.originalUrl,
+      body: req.body,
+    },
+    `Solicitud recibida: ${req.method} ${req.originalUrl}`
+  );
+  next();
+});
 
 /**
  * @swagger
