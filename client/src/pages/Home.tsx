@@ -32,7 +32,7 @@ export default function Home() {
           </button>
           <button
             onClick={goToLoginDoctor}
-            className="text-blue-700 underline cursor-pointer"
+            className="text-blue-800 border-2 border-blue-600 px-6 py-2 rounded cursor-pointer hover:bg-blue-10"
           >
             Soy doctor
           </button>
