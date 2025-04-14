@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
+import { setupSwagger } from './swagger';
 
 import doctorRoutes from "./src/routes/doctor.route";
 import pacienteRoutes from "./src/routes/paciente.route";
@@ -15,7 +16,12 @@ const PORT = process.env.PORT || 3030;
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.json());
 
+// Config Swagger
+setupSwagger(app);
+
+// Configuración de variables de entorno
 dotenv.config();
 
 const dbURI =
@@ -27,7 +33,7 @@ mongoose
     console.log("✅ MongoDB conectado");
 
     await seedDoctores();
-    
+
     app.use("/api/auth", authRoutes);
     app.use("/api/doctores", doctorRoutes);
     app.use("/api/pacientes", pacienteRoutes);
@@ -41,6 +47,7 @@ mongoose
     // 🚀 Levantamos el servidor
     app.listen(PORT, () => {
       console.log(`✅ Servidor corriendo en http://localhost:${PORT}/`);
+      console.log(`📚 Documentación Swagger en http://localhost:${PORT}/api-docs`);
     });
   })
   .catch((err) => {
