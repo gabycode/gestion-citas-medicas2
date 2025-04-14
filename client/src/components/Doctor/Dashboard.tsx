@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getDoctorProfile } from "../../services/doctoresService";
-import { obtenerCitasDelDoctor } from "../../services/citasService";
+import { obtenerCitasDelDoctor, deleteCitas } from "../../services/citasService";
 import { Doctor, Cita } from "../../types";
 import { toast } from "react-toastify";
-import { CalendarDays, Clock, CheckCircle, Calendar as CalendarIcon, UserCog, BarChart3 } from "lucide-react";
+import { CalendarDays, Clock, CheckCircle, Calendar as CalendarIcon, UserCog, BarChart3, XCircle } from "lucide-react";
 import { formatearFecha } from "../../utils/helpers";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 const localizer = momentLocalizer(moment);
+const MySwal = withReactContent(Swal);
 
 export default function DoctorDashboard() {
   const [doctor, setDoctor] = useState<Doctor | null>(null);
@@ -42,6 +45,29 @@ export default function DoctorDashboard() {
     localStorage.removeItem("token");
     toast.info("Sesión cerrada correctamente");
     navigate("/login");
+  };
+
+  const handleCancelarCita = async (id: string) => {
+    const result = await MySwal.fire({
+      title: "¿Cancelar esta cita?",
+      text: "Esta acción notificará al paciente y no se podrá deshacer.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Sí, cancelar",
+      cancelButtonText: "No"
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await deleteCitas(id);
+        setCitas(citas.filter(c => c._id !== id));
+        toast.success("✅ Cita cancelada correctamente y notificada al paciente.");
+      } catch (error) {
+        toast.error("Error al cancelar la cita");
+      }
+    }
   };
 
   const today = new Date().toISOString().split("T")[0];
@@ -151,29 +177,37 @@ export default function DoctorDashboard() {
                 return (
                   <li
                     key={cita._id}
-                    className="py-4 flex flex-col md:flex-row md:justify-between md:items-center"
+                    className="py-6 px-4 flex flex-col md:flex-row md:justify-between md:items-center bg-gray-50 rounded-lg mb-4 border"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="bg-blue-100 text-blue-700 rounded-full w-10 h-10 flex items-center justify-center font-bold">
+                      <div className="bg-blue-100 text-blue-700 rounded-full w-12 h-12 flex items-center justify-center font-bold text-lg">
                         {paciente?.nombre?.[0]}{paciente?.apellido?.[0]}
                       </div>
                       <div>
-                        <p className="font-semibold text-gray-800">
+                        <p className="font-semibold text-gray-800 text-lg">
                           {paciente?.nombre} {paciente?.apellido}
                         </p>
                         <p className="text-gray-600">
-                          Fecha: {formatearFecha(cita.fecha)} - Hora: {cita.hora}
+                          📅 {formatearFecha(cita.fecha)} ⏰ {cita.hora}
                         </p>
-                        <p className="text-gray-600">Tel: {paciente?.telefono}</p>
-                        <p className="text-gray-600">Correo: {paciente?.correo}</p>
+                        <p className="text-gray-600">📞 {paciente?.telefono}</p>
+                        <p className="text-gray-600">✉️ {paciente?.correo}</p>
                       </div>
                     </div>
-                    <div className="mt-2 md:mt-0">
+                    <div className="mt-4 md:mt-0 flex flex-col gap-2 items-end">
                       <span className={`px-3 py-1 rounded-full text-sm font-medium ${
                         isPast ? "bg-red-100 text-red-600" : "bg-green-100 text-green-700"
                       }`}>
                         {isPast ? "Expirada" : "Activa"}
                       </span>
+                      {!isPast && (
+                        <button
+                          onClick={() => handleCancelarCita(cita._id)}
+                          className="flex items-center gap-1 mt-1 text-sm bg-red-100 text-red-600 px-3 py-1 rounded hover:bg-red-200"
+                        >
+                          <XCircle className="w-4 h-4" /> Cancelar
+                        </button>
+                      )}
                     </div>
                   </li>
                 );

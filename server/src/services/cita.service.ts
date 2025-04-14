@@ -2,6 +2,7 @@ import { ICita } from "../interfaces/cita.interface";
 import { CitaModel } from "../models/CitaSchema";
 import { DoctorModel } from "../models/DoctorSchema";
 import { PacienteModel } from "../models/PacienteSchema";
+import { sendCancelationEmail } from "../utils/email";
 import { getByCorreo, create as createPaciente } from "./paciente.service";
 import { sendAppointmentEmail } from "../utils/email";
 import { getById as getDoctorById } from "./doctor.service";
@@ -32,7 +33,6 @@ export const create = async (data: any): Promise<ICita> => {
 
   const savedAppointment = await newAppointment.save();
 
-  // 📧 Enviar email
   const doctorInfo = await getDoctorById(doctor);
 
   await sendAppointmentEmail(
@@ -44,7 +44,6 @@ export const create = async (data: any): Promise<ICita> => {
     hora
   );
 
-  // ✅ Retornamos la cita populada
   const populatedAppointment = await CitaModel.findById(savedAppointment._id)
     .populate("doctor")
     .populate("paciente");
@@ -61,5 +60,20 @@ export const update = async (
 };
 
 export const remove = async (id: string): Promise<void> => {
+  const cita = await CitaModel.findById(id).populate("paciente").populate("doctor");
+  if (!cita) throw new Error("Cita no encontrada");
+
+  const paciente: any = cita.paciente;
+  const doctor: any = cita.doctor;
+
+  await sendCancelationEmail(
+    paciente.correo,
+    paciente.nombre,
+    `${doctor.nombre} ${doctor.apellido}`,
+    new Date(cita.fecha).toLocaleDateString("es-ES"),
+    cita.hora
+  );
+
   await CitaModel.findByIdAndDelete(id);
 };
+

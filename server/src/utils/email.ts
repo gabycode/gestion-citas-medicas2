@@ -58,3 +58,71 @@ export const sendAppointmentEmail = async (
 
   await transporter.sendMail(mailOptions);
 };
+
+export const sendCancelationEmail = async (
+  to: string,
+  pacienteNombre: string,
+  doctorNombre: string,
+  fecha: string,
+  hora: string
+) => {
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+
+  const mailOptions = {
+    from: `"Gestión de Citas Médicas" <${process.env.EMAIL_USER}>`,
+    to,
+    subject: "🛑 Cancelación de tu cita médica",
+    html: `
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 640px; margin: auto; padding: 24px; border-radius: 12px; border: 1px solid #f1c0c0; background-color: #fff0f0;">
+      <h2 style="color: #c0392b; text-align: center;">Tu cita ha sido cancelada</h2>
+
+      <p style="font-size: 16px; color: #2c3e50; margin-bottom: 16px;">
+        Hola <strong>${pacienteNombre}</strong>,
+      </p>
+
+      <p style="font-size: 15px; color: #555; line-height: 1.6;">
+        Lamentamos informarte que tu cita médica con el <strong>Dr. ${doctorNombre}</strong> programada para el <strong>${fecha}</strong> a las <strong>${hora}</strong> ha sido <span style="color: #e74c3c; font-weight: bold;">cancelada</span>.
+      </p>
+
+      <div style="margin: 24px 0; padding: 20px; background-color: #ffffff; border-radius: 8px; border: 1px solid #f5b7b1;">
+        <h3 style="margin: 0 0 12px 0; color: #e74c3c; font-size: 18px;">📋 Detalles de la cita</h3>
+        <p style="margin: 6px 0;"><strong>👨‍⚕️ Doctor:</strong> ${doctorNombre}</p>
+        <p style="margin: 6px 0;"><strong>📅 Fecha:</strong> ${fecha}</p>
+        <p style="margin: 6px 0;"><strong>⏰ Hora:</strong> ${hora}</p>
+      </div>
+
+      <p style="font-size: 15px; color: #555; margin-bottom: 30px;">
+        Puedes agendar una nueva cita en nuestra plataforma en cualquier momento:
+      </p>
+
+      <div style="text-align: center; margin-bottom: 32px;">
+        <a href="http://localhost:3000/agendar" style="display: inline-block; padding: 14px 28px; background-color: #3498db; color: #fff; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 16px;">
+          📅 Agendar nueva cita
+        </a>
+      </div>
+
+      <p style="font-size: 14px; color: #777; text-align: center;">
+        ¿Tienes dudas? Estamos aquí para ayudarte.
+      </p>
+
+      <div style="text-align: center; margin-top: 12px;">
+        <a href="mailto:${process.env.EMAIL_USER}" style="color: #e74c3c; text-decoration: underline; font-size: 14px;">
+          Contactar Soporte
+        </a>
+      </div>
+
+      <p style="margin-top: 40px; font-size: 12px; color: #aaa; text-align: center;">
+        Este es un mensaje automático, por favor no respondas a este correo.
+      </p>
+    </div>
+    `,
+  };
+
+  await transporter.sendMail(mailOptions);
+};
