@@ -8,10 +8,11 @@ const DoctorSchema: Schema = new Schema<IDoctor>(
     especialidad: { type: String, required: true },
     telefono: { type: String, required: true },
     email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    otp: { type: String },
+    otpExpires: { type: Date },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 export const DoctorModel = mongoose.models.Doctor || mongoose.model<IDoctor>("Doctor", DoctorSchema);

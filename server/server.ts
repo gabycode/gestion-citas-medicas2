@@ -4,10 +4,11 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
 
-import doctorRoutes from "./routes/doctor.route";
-import pacienteRoutes from "./routes/paciente.route";
-import citasRoutes from "./routes/cita.route";
-import { seedDoctores } from "./seeds/doctores.seed";
+import doctorRoutes from "./src/routes/doctor.route";
+import pacienteRoutes from "./src/routes/paciente.route";
+import citasRoutes from "./src/routes/cita.route";
+import authRoutes from "./src/routes/auth.route"
+import { seedDoctores } from "./src/seeds/doctores.seed";
 
 const app = express();
 const PORT = process.env.PORT || 3030;
@@ -27,6 +28,7 @@ mongoose
 
     await seedDoctores();
     
+    app.use("/api/auth", authRoutes);
     app.use("/api/doctores", doctorRoutes);
     app.use("/api/pacientes", pacienteRoutes);
     app.use("/api/citas", citasRoutes);

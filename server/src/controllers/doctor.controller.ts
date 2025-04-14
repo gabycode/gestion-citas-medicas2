@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 import * as DoctorService from '../services/doctor.service';
+import { CitaModel } from "../models/CitaSchema";
+import { AuthRequest } from "../types/AuthRequest";
 
 export const getAllDoctors = async (req: Request, res: Response) => {
   try {
@@ -26,6 +28,22 @@ export const createDoctor = async (req: Request, res: Response) => {
   }
 };
 
+export const getCitasDoctor = async (req: AuthRequest, res: Response) => {
+  try {
+    const doctorId = req.user?.id;
+    if (!doctorId) return res.status(401).json({ message: "No autorizado" });
+
+    const citas = await CitaModel.find({ doctor: doctorId })
+      .populate("paciente", "nombre apellido correo telefono") // solo los campos útiles
+      .sort({ fecha: 1 });
+
+    res.json(citas);
+  } catch (error) {
+    console.error("Error al obtener citas del doctor:", error);
+    res.status(500).json({ message: "Error al obtener citas del doctor" });
+  }
+};
+
 export const getDoctorById = async (req: Request, res: Response) => {
   try {
     const doctor = await DoctorService.getById(req.params.id);
@@ -40,6 +58,7 @@ export const getDoctorById = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Error al obtener el doctor.' });
   }
 };
+
 
 export const updateDoctor = async (req: Request, res: Response) => {
   try {

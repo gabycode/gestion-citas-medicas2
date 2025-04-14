@@ -6,4 +6,7 @@ export interface IDoctor extends Document {
   especialidad: string;
   telefono: string;
   email: string;
+  password: string;
+  otp?: string;
+  otpExpires?: Date;
 }

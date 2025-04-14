@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { loginDoctor } from "../../services/doctoresService";
+import { sendOtp } from "../../services/doctoresService";
 import { useState } from "react";
 
-export default function LoginDoctor() {
+export default function ForgotPassword() {
   const {
     register,
     handleSubmit,
@@ -17,14 +17,12 @@ export default function LoginDoctor() {
   const onSubmit = async (data: any) => {
     setLoading(true);
     try {
-      const response = await loginDoctor(data);
-      const token = response.data.token;
-      localStorage.setItem("token", token);
-      toast.success("Inicio de sesión exitoso ✅");
-      navigate("/dashboard"); // Ajusta esta ruta según tu app
+      await sendOtp(data.email);
+      toast.success("Se ha enviado el código OTP al correo electrónico 📩");
+      navigate("/reset-password", { state: { email: data.email } });
     } catch (err: any) {
-      console.error("Error de login:", err);
-      toast.error(err.response?.data?.message || "Credenciales inválidas");
+      console.error("Error al enviar OTP:", err);
+      toast.error(err.response?.data?.message || "Error al enviar el código OTP");
     } finally {
       setLoading(false);
     }
@@ -43,7 +41,7 @@ export default function LoginDoctor() {
       className="max-w-sm mx-auto mt-10 space-y-4 bg-white p-6 rounded-lg shadow-md"
     >
       <h2 className="text-2xl font-bold text-center text-blue-700 mb-4">
-        Iniciar Sesión - Doctor
+        Recuperar Contraseña
       </h2>
 
       <div>
@@ -64,27 +62,9 @@ export default function LoginDoctor() {
         )}
       </div>
 
-      <div>
-        <label className={labelStyle}>Contraseña</label>
-        <input
-          {...register("password", { required: "La contraseña es obligatoria" })}
-          type="password"
-          className={inputStyle}
-        />
-        {errors.password && (
-          <p className={errorStyle}>{errors.password.message?.toString()}</p>
-        )}
-      </div>
-
       <button type="submit" className={buttonStyle} disabled={loading}>
-        {loading ? "Iniciando..." : "Iniciar sesión"}
+        {loading ? "Enviando..." : "Enviar código OTP"}
       </button>
-
-      <p className="text-sm text-center text-blue-600 underline cursor-pointer mt-4"
-         onClick={() => navigate("/forgot-password")}
-      >
-        ¿Olvidaste tu contraseña?
-      </p>
     </form>
   );
 }

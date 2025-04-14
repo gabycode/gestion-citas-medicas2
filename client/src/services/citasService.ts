@@ -9,7 +9,7 @@ export const updateCita = (id: string, data: Partial<Cita>) =>
 export const deleteCitas = (id: string) => api.delete(`/citas/${id}`);
 
 export const obtenerCitasDelDoctor = async (token: string) => {
-  const response = await api.get("/doctor/citas", {
+  const response = await api.get("/doctores/citas", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
