@@ -67,23 +67,34 @@ export default function LoginDoctor() {
       <div>
         <label className={labelStyle}>Contraseña</label>
         <input
-          {...register("password", { required: "La contraseña es obligatoria" })}
+          {...register("password", {
+            required: "La contraseña es obligatoria",
+          })}
           type="password"
           className={inputStyle}
         />
         {errors.password && (
           <p className={errorStyle}>{errors.password.message?.toString()}</p>
         )}
+        <p
+          className="text-sm text-right text-blue-600 underline cursor-pointer mt-2"
+          onClick={() => navigate("/forgot-password")}
+        >
+          ¿Olvidaste tu contraseña?
+        </p>
       </div>
 
       <button type="submit" className={buttonStyle} disabled={loading}>
         {loading ? "Iniciando..." : "Iniciar sesión"}
       </button>
-
-      <p className="text-sm text-center text-blue-600 underline cursor-pointer mt-4"
-         onClick={() => navigate("/forgot-password")}
-      >
-        ¿Olvidaste tu contraseña?
+      <p className="text-sm text-center text-black-600  mt-2">
+        ¿No tienes cuenta?{" "}
+        <span
+          onClick={() => navigate("/signup")}
+          className="underline cursor-pointer"
+        >
+          Regístrate aquí
+        </span>
       </p>
     </form>
   );
