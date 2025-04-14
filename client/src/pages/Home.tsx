@@ -13,7 +13,7 @@ export default function Home() {
       className="min-h-screen font-poppins flex flex-col items-center justify-center px-4 bg-cover bg-center text-center md:flex-row md:text-left"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
-      <div className="w-full md:w-1/2 pl-16">
+      <div className="w-full md:w-1/2 md:pl-16">
         <h1 className="text-5xl md:text-8xl font-medium mb-4">
           Tu Salud, <br />
           Nuestra Prioridad
