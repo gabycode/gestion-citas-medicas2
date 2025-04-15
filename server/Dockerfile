@@ -11,6 +11,13 @@ RUN npm install
 COPY . .
 CMD ["npm", "run", "dev"]
 
+# Stage para ejecutar tests
+FROM base AS test
+ENV NODE_ENV=test
+RUN npm install
+COPY . .
+CMD ["npm", "test"]
+
 # En producción, compilamos la app primero
 FROM base AS build
 RUN npm install
@@ -20,7 +27,7 @@ RUN npm run build
 # Imagen final de producción
 FROM node:23-slim AS production
 WORKDIR /usr/src/app
-COPY --from=build /usr/src/app/dist-server ./dist
+COPY --from=build /usr/src/app/dist ./dist
 COPY package*.json ./
 RUN npm install --omit=dev
 EXPOSE 3030
