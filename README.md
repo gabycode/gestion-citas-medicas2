@@ -46,7 +46,7 @@ Asegúrate de tener **Docker** y **Docker Compose** instalados.
 
 
 ### Pruebas unitarias
-```bash
+   ```bash
    cd server
    npm test
    ```
