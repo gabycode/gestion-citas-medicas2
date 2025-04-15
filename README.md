@@ -24,8 +24,8 @@ Asegúrate de tener **Docker** y **Docker Compose** instalados.
 
 1. Clona este repositorio:
    ```bash
-   git clone https://github.com/gabycode/gestion-citas-medicas.git
-   cd gestion-citas-medicas
+   git clone https://github.com/gabycode/gestion-citas-medicas2.git
+   cd gestion-citas-medicas2
    ```
 
 2. Construye las imágenes:
@@ -44,6 +44,12 @@ Asegúrate de tener **Docker** y **Docker Compose** instalados.
 - Backend (API): [http://localhost:3030](http://localhost:3030)
 - **Documentación Swagger**: [http://localhost:3030/api-docs](http://localhost:3030/api-docs)
 
+
+### Pruebas unitarias
+```bash
+   cd server
+   npm test
+   ```
 ---
 
 ## 🧱 Estructura de Carpetas
