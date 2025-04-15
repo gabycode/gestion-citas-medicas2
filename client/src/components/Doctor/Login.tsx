@@ -23,7 +23,7 @@ export default function LoginDoctor() {
       const token = response.data.token;
       localStorage.setItem("token", token);
       toast.success("Inicio de sesión exitoso ✅");
-      navigate("/dashboard"); // Ajusta esta ruta según tu app
+      navigate("/dashboard");
     } catch (err: any) {
       console.error("Error de login:", err);
       toast.error(err.response?.data?.message || "Credenciales inválidas");

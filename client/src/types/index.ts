@@ -1,4 +1,3 @@
-// types/index.ts
 
 export interface Doctor {
   _id: string;
@@ -35,7 +34,7 @@ export interface ResetPasswordForm {
 export interface CitaForm {
   fecha: string;
   hora: string;
-  doctor: string; // ID del doctor
+  doctor: string;
   paciente: {
     nombre: string;
     apellido: string;
