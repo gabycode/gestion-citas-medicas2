@@ -1,8 +1,21 @@
 import { RequestHandler, Router } from "express";
 import { authToken } from "../middleware/auth.middleware";
 import * as doctorController from "../controllers/doctor.controller";
+import logger from "../utils/logger";
 
 const router = Router();
+
+router.use((req, res, next) => {
+  logger.info(
+    {
+      method: req.method,
+      url: req.originalUrl,
+      body: req.body,
+    },
+    `Solicitud recibida: ${req.method} ${req.originalUrl}`
+  );
+  next();
+});
 
 /**
  * @swagger
@@ -88,7 +101,11 @@ router.post("/", doctorController.createDoctor as RequestHandler);
  *       200:
  *         description: Lista de citas del doctor
  */
-router.get("/citas", authToken, doctorController.getCitasDoctor as RequestHandler);
+router.get(
+  "/citas",
+  authToken,
+  doctorController.getCitasDoctor as RequestHandler
+);
 
 /**
  * @swagger
