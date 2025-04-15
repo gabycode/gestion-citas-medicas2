@@ -2,6 +2,9 @@
 
 Sistema de gestión de citas médicas desarrollado con TypeScript, Express, MongoDB (NoSQL), Mongoose como ORM y arquitectura limpia. El proyecto está completamente dockerizado y separado en frontend y backend.
 
+🎥 **Video explicativo del proyecto:**  
+[![Ver en YouTube](https://img.youtube.com/vi/w5HNPBeI4zQ/0.jpg)](https://youtu.be/w5HNPBeI4zQ)
+
 ---
 
 ## 📦 Tecnologías
@@ -28,17 +31,12 @@ Asegúrate de tener **Docker** y **Docker Compose** instalados.
    cd gestion-citas-medicas2
    ```
 
-2. Construye las imágenes:
+2. Construye las imágenes y inicia los contenedores:
    ```bash
-   docker-compose build
+   docker-compose up --build -d
    ```
 
-3. Inicia los contenedores:
-   ```bash
-   docker-compose up -d
-   ```
-
-4. Accede a las interfaces:
+3. Accede a las interfaces:
 
 - Frontend: [http://localhost:3000](http://localhost:3000)
 - Backend (API): [http://localhost:3030](http://localhost:3030)
@@ -67,7 +65,7 @@ Asegúrate de tener **Docker** y **Docker Compose** instalados.
   │   ├── tests /
   │   ├── types/
   │   ├── utils/
-  │   └── App.tsx
+  │   └── App.ts
   ├── jest.config.ts/
   ├── server.ts/
   ├── swagger.ts/

@@ -1,14 +1,11 @@
-import * as CitaService from "../../../../src/services/cita.service";
-import { CitaModel } from "../../../../src/models/CitaSchema";
-import {
-  sendAppointmentEmail,
-  sendCancelationEmail,
-} from "../../../../src/utils/email";
-import * as PacienteService from "../../../../src/services/paciente.service";
-import * as DoctorService from "../../../../src/services/doctor.service";
-import logger from "../../../../src/utils/logger";
+import * as CitaService from "../../../services/cita.service";
+import { CitaModel } from "../../../models/CitaSchema";
+import { sendAppointmentEmail, sendCancelationEmail } from "../../../utils/email";
+import * as PacienteService from "../../../services/paciente.service";
+import * as DoctorService from "../../../services/doctor.service";
+import logger from "../../../utils/logger";
 
-jest.mock("../../../../src/models/CitaSchema", () => {
+jest.mock("../../../models/CitaSchema", () => {
   const mockSave = jest.fn();
   const mockCitaModel: any = jest.fn().mockImplementation(() => ({
     save: mockSave,
@@ -26,10 +23,10 @@ jest.mock("../../../../src/models/CitaSchema", () => {
   };
 });
 
-jest.mock("../../../../src/services/paciente.service");
-jest.mock("../../../../src/services/doctor.service");
-jest.mock("../../../../src/utils/email");
-jest.mock("../../../../src/utils/logger", () => ({
+jest.mock("../../../services/paciente.service");
+jest.mock("../../../services/doctor.service");
+jest.mock("../../../utils/email");
+jest.mock("../../../utils/logger", () => ({
   info: jest.fn(),
   error: jest.fn(),
   warn: jest.fn(),

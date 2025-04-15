@@ -2,11 +2,9 @@ import request from "supertest";
 import express from "express";
 import citaRoutes from "../../../routes/cita.route";
 
-// Mock de CitaService
 jest.mock("../../../services/cita.service");
 import * as CitaService from "../../../services/cita.service";
 
-// Crear un servidor Express para testing
 const app = express();
 app.use(express.json());
 app.use("/api/citas", citaRoutes);

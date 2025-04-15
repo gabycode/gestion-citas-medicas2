@@ -1,38 +1,19 @@
 // src/swagger.ts
-import swaggerJSDoc from 'swagger-jsdoc';
-import swaggerUi from 'swagger-ui-express';
-import { Express } from 'express';
-
-const options: swaggerJSDoc.Options = {
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'API De Sistema De Gestion De Citas Médicas',
-      version: '1.0.0',
-      description: 'Documentación generada con Swagger',
-    },
-    servers: [
-      {
-        url: 'http://localhost:3030/api',
-        description: 'Servidor de desarrollo',
-      },
-    ],
-    components: {
-      securitySchemes: {
-        bearerAuth: {
-          type: 'http',
-          scheme: 'bearer',
-          bearerFormat: 'JWT',
-        },
-      },
-    },
-    security: [{ bearerAuth: [] }],
-  },
-  apis: ['./src/routes/*.ts'],
-};
-
-const swaggerSpec = swaggerJSDoc(options);
+import swaggerUi from "swagger-ui-express";
+import { Express } from "express";
+import path from "path";
+import fs from "fs";
 
 export const setupSwagger = (app: Express): void => {
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  const swaggerPath = path.join(__dirname, "..", "swagger-output.json");
+
+  try {
+    const swaggerFile = fs.readFileSync(swaggerPath, "utf8");
+    const swaggerDocument = JSON.parse(swaggerFile);
+
+    app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+    console.log("✅ Swagger cargado desde swagger-output.json");
+  } catch (error) {
+    console.error("❌ Error cargando Swagger JSON:", error);
+  }
 };

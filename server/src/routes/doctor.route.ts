@@ -101,11 +101,7 @@ router.post("/", doctorController.createDoctor as RequestHandler);
  *       200:
  *         description: Lista de citas del doctor
  */
-router.get(
-  "/citas",
-  authToken,
-  doctorController.getCitasDoctor as RequestHandler
-);
+router.get( "/citas", authToken, doctorController.getCitasDoctor as RequestHandler);
 
 /**
  * @swagger

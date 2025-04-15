@@ -1,20 +1,18 @@
 version: "3.8"
+
 services:
   backend:
     container_name: gestion_citas_medicas-server
     build:
       context: ./server
       dockerfile: Dockerfile
-      target: ${NODE_ENV:-development}
+      target: production
     ports:
       - "3030:3030"
-    volumes:
-      - ./server:/usr/src/app
-      - /usr/src/app/node_modules
     env_file:
       - ./server/.env
     environment:
-      - NODE_ENV=${NODE_ENV:-development}
+      - NODE_ENV=production
       - MONGO_URI=mongodb://mongo:27017/gestion-citas-medicas
     depends_on:
       - mongo
@@ -24,12 +22,9 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile
-      target: ${NODE_ENV:-development}
+      target: production
     ports:
       - "3000:3000"
-    volumes:
-      - ./client:/app
-      - /app/node_modules
     depends_on:
       - backend
 

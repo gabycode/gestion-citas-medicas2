@@ -2,7 +2,7 @@ import { DoctorModel } from "../models/DoctorSchema";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { generateOtp } from "../utils/generateotp";
-import { sendOtpEmail } from "../utils/SendOtpEmail";
+import { sendOtpEmail } from "../utils/email";
 import logger from "../utils/logger";
 
 export const register = async (data: any) => {

@@ -16,7 +16,6 @@ module.exports = {
       statements: 70,
     },
   },
-  // Configuración para reducir problemas con pruebas concurrentes que usan MongoDB
   maxWorkers: 1,
   testTimeout: 10000,
 };

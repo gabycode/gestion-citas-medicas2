@@ -2,11 +2,9 @@ import request from "supertest";
 import express from "express";
 import doctorRoutes from "../../../routes/doctor.route";
 
-// Mock de DoctorService
 jest.mock("../../../services/doctor.service");
 import * as DoctorService from "../../../services/doctor.service";
 
-// Crear un servidor Express para testing
 const app = express();
 app.use(express.json());
 app.use("/api/doctores", doctorRoutes);

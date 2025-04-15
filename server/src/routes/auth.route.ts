@@ -1,11 +1,5 @@
 import { RequestHandler, Router } from "express";
-import {
-  registerDoctor,
-  loginDoctor,
-  forgotPassword,
-  resetPassword,
-  getDoctorProfile,
-} from "../controllers/auth.controller";
+import * as authController from "../controllers/auth.controller";
 import { authToken } from "../middleware/auth.middleware";
 import logger from "../utils/logger";
 
@@ -132,7 +126,7 @@ router.use((req, res, next) => {
  *       400:
  *         description: El email ya está en uso
  */
-router.post("/signup", registerDoctor);
+router.post("/signup",authController.registerDoctor);
 
 /**
  * @swagger
@@ -159,7 +153,7 @@ router.post("/signup", registerDoctor);
  *       401:
  *         description: Credenciales incorrectas
  */
-router.post("/login", loginDoctor);
+router.post("/login", authController.loginDoctor);
 
 /**
  * @swagger
@@ -177,7 +171,7 @@ router.post("/login", loginDoctor);
  *       200:
  *         description: OTP enviado correctamente
  */
-router.post("/forgot-password", forgotPassword);
+router.post("/forgot-password", authController.forgotPassword);
 
 /**
  * @swagger
@@ -195,7 +189,7 @@ router.post("/forgot-password", forgotPassword);
  *       200:
  *         description: Contraseña actualizada correctamente
  */
-router.post("/reset-password", resetPassword);
+router.post("/reset-password", authController.resetPassword);
 
 /**
  * @swagger
@@ -211,6 +205,6 @@ router.post("/reset-password", resetPassword);
  *       401:
  *         description: No autorizado
  */
-router.get("/me", authToken, getDoctorProfile as RequestHandler);
+router.get("/me", authToken, authController.getDoctorProfile as RequestHandler);
 
 export default router;
