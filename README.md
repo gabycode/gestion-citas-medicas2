@@ -56,16 +56,21 @@ Asegúrate de tener **Docker** y **Docker Compose** instalados.
 
 ```bash
 /server
-  ├── controllers/
-  ├── routes/
-  ├── models/
-  ├── services/
-  ├── middleware/
-  ├── utils/
-  ├── types/
-  ├── swagger.ts
-  ├── server.ts
-  ├── .env
+  ├── src/
+  │   ├── controllers/
+  │   ├── interfaces/
+  │   ├── middleware/
+  │   ├── models/
+  │   ├── routes/
+  │   ├── seeds/
+  │   ├── services/
+  │   ├── tests /
+  │   ├── types/
+  │   ├── utils/
+  │   └── App.tsx
+  ├── jest.config.ts/
+  ├── server.ts/
+  ├── swagger.ts/
   └── DockerFile
 
 /client
