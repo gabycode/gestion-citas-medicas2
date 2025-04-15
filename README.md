@@ -36,7 +36,45 @@ Asegúrate de tener **Docker** y **Docker Compose** instalados.
 
 4. Accede a las interfaces
 - Frontend: http://localhost:3000
-- Backend (API): http://localhost:5000
+- Backend (API): http://localhost:3030
+
+## 🧱 Estructura de Carpetas
+
+```bash
+/server
+  ├── controllers/
+  ├── routes/
+  ├── models/
+  ├── services/
+  ├── middleware/
+  ├── utils/
+  ├── types/
+  ├── server.ts
+  ├── .env
+  └── DockerFile
+
+/client
+  ├── src/
+  │   ├── components/
+  │   ├── pages/
+  │   ├── services/
+  │   ├── types/
+  │   └── App.tsx
+  ├── public/
+  └── DockerFile
+  ```
+
+## 📅 Funcionalidad Principal
+
+Registro automático de paciente si no existe.
+
+Agendamiento de cita (con doctor, fecha y hora).
+
+Envío de confirmación de cita por correo.
+
+Listado de citas por doctor (próximamente).
+
+CRUD completo para doctores, pacientes y citas.
 
 ## 📬 Endpoints principales (API REST)
 | Recurso  | Metodo | Ruta               | Descripcion                 |
@@ -53,3 +91,16 @@ Asegúrate de tener **Docker** y **Docker Compose** instalados.
 |          | POST   | /api/citas/        | Crear nueva cita            |
 |          | PUT    | /api/citas/:id     | Actualizar cita             |
 |          | DELETE | /api/citas/:id     | Eliminar cita               |
+
+
+## 🧪 Pruebas con Postman
+POST /signup para registrar doctor.
+
+POST /login para recibir el token.
+
+GET /me con header:
+Authorization: Bearer TU_TOKEN
+
+POST /forgot-password para recibir OTP.
+
+POST /reset-password para cambiar contraseña.

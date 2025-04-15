@@ -1,17 +1,20 @@
-FROM node:23-slim
-# Create and set the working directory
-WORKDIR /usr/src/app
-# Copy package.json and package-lock.json to the working directory
+ARG NODE_ENV=production
+FROM node:23-slim AS base
+WORKDIR /app
 COPY package*.json ./
-# Install dependencies
 RUN npm install
-# Copy the rest of the application code
 COPY . .
-# Build the React app
+
+FROM base AS build
 RUN npm run build
-# Install serve to serve the production build
+
+FROM base AS development
+ENV NODE_ENV=development
+CMD ["npm", "run", "dev"]
+
+FROM node:23-slim AS production
+WORKDIR /app
 RUN npm install -g serve
-# Expose the port the app runs on
+COPY --from=build /app/dist-client ./dist
 EXPOSE 3000
-# Start the application
-CMD ["serve", "-s", "dist-client"]
+CMD ["serve", "-s", "dist", "-l", "3000"]

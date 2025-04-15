@@ -1,11 +1,13 @@
-import ConfirmacionCita from '../components/Paciente/ConfirmacionCita';
+import LoginDoctor from "../components/Doctor/Login";
+import backgroundImage from "../assets/background.webp";
 
-export default function Confirmacion() {
+export default function Login() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-green-50 px-4">
-      <div className="max-w-xl w-full p-6 bg-white rounded shadow">
-        <ConfirmacionCita />
-      </div>
+    <div
+      className="min-h-screen flex items-center justify-center bg-gray-100 px-4 bg-cover bg-center"
+      style={{ backgroundImage: `url(${backgroundImage})` }}
+    >
+        <LoginDoctor />
     </div>
   );
 }
