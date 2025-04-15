@@ -51,7 +51,6 @@ export const create = async (data: any): Promise<ICita> => {
   return populatedAppointment as ICita;
 };
 
-
 export const update = async (
   id: string,
   data: Partial<ICita>
