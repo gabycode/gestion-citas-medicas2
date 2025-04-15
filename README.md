@@ -24,8 +24,8 @@ Asegúrate de tener **Docker** y **Docker Compose** instalados.
 
 1. Clona este repositorio:
    ```bash
-   git clone https://github.com/gabycode/gestion-citas-medicas.git
-   cd gestion-citas-medicas
+   git clone https://github.com/gabycode/gestion-citas-medicas2.git
+   cd gestion-citas-medicas2
    ```
 
 2. Construye las imágenes:
@@ -142,3 +142,5 @@ Incluye:
 ---
 
 ¡Listo para usar, escalar y documentar como un profesional! 🚀
+
+docker exec -it gestion_citas_medicas-server npm test

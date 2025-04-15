@@ -19,6 +19,23 @@ services:
     depends_on:
       - mongo
 
+  backend-tests:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+      target: development
+    container_name: gestion_citas_medicas-tests
+    working_dir: /usr/src/app
+    command: npm test
+    volumes:
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - NODE_ENV=test
+      - MONGO_URI=mongodb://mongo:27017/gestion-citas-medicas
+    depends_on:
+      - mongo
+
   frontend:
     container_name: gestion_citas_medicas-client
     build:
