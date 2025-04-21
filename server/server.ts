@@ -1,33 +1,27 @@
-import express from "express";
 import mongoose from "mongoose";
-import cors from "cors";
-import bodyParser from "body-parser";
-import doctorRoutes from "./routes/doctor.route";
-import pacienteRoutes from "./routes/paciente.route";
-import citasRoutes from "./routes/cita.route";
+import dotenv from "dotenv";
+import logger from "./src/utils/logger";
+import { seedDoctores } from "./src/seeds/doctores.seed";
+import app from "./src/app";
 
-const app = express();
-const PORT = process.env.PORT || 5000;
+dotenv.config();
 
-app.use(cors());
-app.use(bodyParser.json());
-
-const dbURI =
-  process.env.MONGO_URI || "mongodb://localhost:27017/gestion-citas-medicas";
+const PORT = process.env.PORT || 3030;
+const dbURI = process.env.MONGO_URI || "mongodb://localhost:27017/gestion-citas-medicas";
 
 mongoose
   .connect(dbURI)
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.log(err));
+  .then(async () => {
+    logger.info("✅ MongoDB conectado");
 
-app.get("/", (req, res) => {
-  res.send("Servidor conectado");
-});
+    await seedDoctores();
+    logger.info("🌱 Seeding de doctores completado");
 
-app.use("/api/doctores", doctorRoutes);
-app.use("/api/pacientes", pacienteRoutes);
-app.use("/api/citas", citasRoutes);
-
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}/`);
-});
+    app.listen(PORT, () => {
+      logger.info(`🚀 Servidor corriendo en http://localhost:${PORT}/`);
+      logger.info(`📚 Swagger disponible en http://localhost:${PORT}/api-docs`);
+    });
+  })
+  .catch((err) => {
+    logger.error("❌ Error al conectar a MongoDB:", err);
+  });

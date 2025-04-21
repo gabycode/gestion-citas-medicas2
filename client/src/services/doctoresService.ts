@@ -1,9 +1,32 @@
 import { api } from "./api";
-import { Doctor } from "../types";
+import { DoctorLoginForm, DoctorRegisterForm, ResetPasswordForm } from "../types";
+
+export const registerDoctor = (data: DoctorRegisterForm) =>
+  api.post("/auth/signup", data);
+
+export const loginDoctor = (data: DoctorLoginForm) =>
+  api.post("/auth/login", data);
+
+export const sendOtp = (email: string) =>
+  api.post("/auth/forgot-password", { email });
+
+export const resetPassword = (data: ResetPasswordForm) =>
+  api.post("/auth/reset-password", data);
+
+export const getDoctorProfile = (token: string) =>
+  api.get("/auth/me", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
 export const getAllDoctores = () => api.get("/doctores");
-export const getDoctorById = (id: string) => api.get(`/doctores/${id}`);
-export const createDoctor = (data: Doctor) => api.post("/doctores", data);
-export const updateDoctor = (id: string, data: Partial<Doctor>) =>
-  api.put(`/doctores/${id}`, data);
-export const deleteDoctor = (id: string) => api.delete(`/doctores/${id}`);
+
+export const obtenerCitasDelDoctor = async (token: string) => {
+  const response = await api.get("/doctores/citas", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};

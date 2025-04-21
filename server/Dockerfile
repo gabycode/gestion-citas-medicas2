@@ -1,36 +1,43 @@
-#Etapa 1: Build
-FROM node:23-slim AS builder
+FROM node:23-slim AS base
 
-# Create and set the working directory
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 
-# Install dependencies
+# Etapa de desarrollo
+FROM base AS development
 RUN npm install
+COPY . .
+CMD ["npm", "run", "dev"]
 
-# Copy the rest of the application code
+# Etapa de testing
+FROM base AS test
+ENV NODE_ENV=test
+RUN npm install
+COPY . .
+CMD ["npm", "test"]
+
+# Etapa de build
+FROM base AS build
+RUN npm install
 COPY . .
 
-# Compilar el proyecto TypeScript
+RUN npm run generate:swagger
+
 RUN npm run build
 
-# Etapa 2: Runtime
-FROM node:23-slim AS runner
-
-# Create and set the working directory
+# Etapa de producción final
+FROM node:23-slim AS production
 WORKDIR /usr/src/app
 
-# Copy only the necessary files from the builder stage
-COPY --from=builder /usr/src/app/dist ./dist
-COPY --from=builder /usr/src/app/package*.json ./
+# Copiamos solo lo necesario
+COPY --from=build /usr/src/app/dist ./dist
+COPY --from=build /usr/src/app/swagger-output.json ./swagger-output.json
+COPY package*.json ./
 
-# Install only production dependencies
-RUN npm install --only=production
+# Instala solo dependencias necesarias para producción
+RUN npm install --omit=dev
 
-# Expose the port the app runs on
-EXPOSE 5000
+EXPOSE 3030
 
-# Start the application
 CMD ["node", "dist/server.js"]

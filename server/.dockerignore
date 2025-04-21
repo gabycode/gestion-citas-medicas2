@@ -1,0 +1,14 @@
+node_modules
+dist
+dist-server
+
+*.log
+*.tsbuildinfo
+swagger.yaml
+coverage
+test
+__tests__
+*.test.ts
+*.spec.ts
+.vscode
+.idea
